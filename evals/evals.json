@@ -1,0 +1,40 @@
+{
+  "skill_name": "home-router-tune",
+  "evals": [
+    {
+      "id": 1,
+      "name": "explicit-audit-request",
+      "prompt": "I'd like you to audit my home router and propose any tuning improvements. The admin panel is on the usual 192.168.0.1, ISP is Claro Net so it's a Sagemcom F@ST 3895. Credentials are already in ./router-tune/.env. Take it slow — produce the discovery first, then the plan. I'll approve before anything is applied.",
+      "expected_output": "Skill triggers, locates .env, runs Phase 1 (discovery + screenshots + drift detection), writes discovery-<ts>.md/.json, runs Phase 2 (plan-<ts>.md/.json with prioritized actions), waits for explicit approval before Phase 3.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "loose-trigger-after-isp-swap",
+      "prompt": "tech from the ISP came by yesterday and swapped out the modem for a new one. wifi feels weirdly slower in the bedroom now and my smart bulbs keep dropping. can you take a look at the new modem and tell me what's worth changing? login is on the sticker.",
+      "expected_output": "Skill triggers without explicit 'audit/tune' words. Detects no .env, copies template from assets/.env.example to ./router-tune/.env.example, asks user to fill it in, and stops. Mentions the IoT-bulb symptom as a hint to evaluate band steering / 2.4 GHz channel in Phase 2.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "rerun-with-history",
+      "prompt": "Rerun the router audit. Last time you tuned a few channels — I want to see if anything drifted in the last month, plus any new opportunities.",
+      "expected_output": "Skill triggers, reads ./router-tune/history.md and the most recent discovery-*.json, performs drift detection in Phase 1g, surfaces any reverted settings (DFS channel revert, lease reset, firmware OTA) prominently, and proposes only the deltas in Phase 2 — does not re-propose changes that already stuck.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "unknown-vendor-fallback",
+      "prompt": "Audit my router please. It's a Huawei HG8245H5 from Vivo Fibra, login at 192.168.100.1 with the credentials on the bottom label.",
+      "expected_output": "Skill triggers, identifies vendor as Huawei, reads references/vendors/huawei-hg8245.md for the URL map and known dual-credential model (user vs telecomadmin). If credentials are user-tier, surfaces the locked-features warning in the report. Falls back to generic walk if playbook is incomplete.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "near-miss-do-not-trigger",
+      "prompt": "I'm trying to write a Terraform module that provisions a virtual machine in a private VPC subnet behind a NAT gateway. Can you help with the routing tables?",
+      "expected_output": "Skill does NOT trigger. The query mentions 'router' (routing tables) and 'NAT' but the context is cloud infrastructure, not a home modem. The agent should respond from general knowledge or use a different skill.",
+      "files": []
+    }
+  ]
+}

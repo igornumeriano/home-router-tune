@@ -1,0 +1,32 @@
+# home-router-tune — ./router-tune/ working directory
+# Copy this file to ./router-tune/.gitignore (the skill does this automatically
+# when it bootstraps the working dir). Anything below leaves the repo cleaner
+# without losing the artifacts you actually want to commit (history.md, the
+# *-<ts>.md run reports, plans).
+
+# secrets — NEVER commit
+.env
+.env.local
+*.secret
+
+# transient state
+.lock
+*.pid
+*.tmp
+
+# binary backups (large; restore via vendor UI, not git)
+backups/
+*.xml.bak
+
+# screenshots from dev-browser runs (large; reproduce on rerun)
+screenshots/
+
+# cache files (rebuildable on demand)
+oui-cache.json
+
+# editor / OS noise
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

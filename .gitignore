@@ -1,0 +1,11 @@
+# Ignore real run outputs if someone uses the skill against this checkout.
+# (The template at assets/.gitignore is what gets copied into a user's
+# ./router-tune/ working dir; this file protects the repo itself.)
+router-tune/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
